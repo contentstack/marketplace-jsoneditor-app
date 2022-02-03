@@ -5,9 +5,12 @@ import 'brace/mode/json';
 import 'brace/theme/github';
 import 'jsoneditor-react/es/editor.min.css';
 import './index.css';
-import { jsonProps } from '../../common/types';
+import { TypeJsonProps } from '../../common/types';
 
-const JSONEditor: React.FC<jsonProps> = function ({ value = {}, onChange }) {
+const JSONEditor: React.FC<TypeJsonProps> = function ({
+	value = {},
+	onChange,
+}) {
 	const jsonEditorRef = useRef<JsonEditor | null>(null);
 
 	useEffect(() => {
