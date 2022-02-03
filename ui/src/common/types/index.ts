@@ -4,7 +4,7 @@ export interface TypeSDKData {
 	appSdkInitialized: boolean;
 }
 
-export interface jsonProps {
+export interface TypeJsonProps {
 	value: object;
 	onChange: (value: any) => void;
 }
