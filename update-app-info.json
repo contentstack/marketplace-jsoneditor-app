@@ -12,9 +12,18 @@
 						"data_type": "json"
 					}
 				]
+			},
+			{
+				"type": "cs.cm.stack.config",
+				"meta": [
+					{
+						"signed": true,
+						"path": "/config"
+					}
+				]
 			}
 		],
 		"signed": true,
-		"base_url": "http://localhost:4000/"
+		"base_url": "https://jsoneditor.contentstackmarket.com/"
 	}
 }
