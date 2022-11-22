@@ -1,22 +1,20 @@
-import React from 'react';
-import { render, waitFor } from '@testing-library/react/pure';
-import CustomField from './index';
+import React from "react";
+import { render, waitFor } from "@testing-library/react/pure";
+import CustomField from "./index";
 
 const elementsToTest = [".layout-container", ".swatch"];
 
 let customFieldDom: any;
 beforeAll(async () => {
-	customFieldDom = render(<CustomField value={{}} onChange={() => {}} />);
+  customFieldDom = render(<CustomField value={{}} onChange={() => {}} />);
 });
 
 describe(`UI Elements of Custom Field Screen`, () => {
-	elementsToTest.forEach(e => {
-		test(`Testing ${e} element`, async () => {
-			await expect(
-				waitFor(() =>
-					customFieldDom?.container.querySelector(e)
-				)
-			).toBeTruthy();
-		});
-	});
+  elementsToTest.forEach((e) => {
+    test(`Testing ${e} element`, async () => {
+      await expect(
+        waitFor(() => customFieldDom?.container.querySelector(e))
+      ).toBeTruthy();
+    });
+  });
 });
