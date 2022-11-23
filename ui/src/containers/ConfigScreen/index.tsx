@@ -128,7 +128,7 @@ const ConfigScreen: React.FC = function () {
                 <VenusHelp />
               </div>
               <div className="Radio-wrapper">
-                <label data-test-id="cs-radio" className="Radio">
+                <label data-test-id="cs-radio" className="Radio label-text">
                   <input
                     id="jsonObject"
                     type="radio"
@@ -143,7 +143,7 @@ const ConfigScreen: React.FC = function () {
                     {localeTexts.configFields.entrySaveRadioButton.jsonObject}
                   </span>
                 </label>
-                <label data-test-id="cs-radio" className="Radio">
+                <label data-test-id="cs-radio" className="Radio label-text">
                   <input
                     id="stringified"
                     type="radio"
