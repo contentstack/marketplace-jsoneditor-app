@@ -1,0 +1,37 @@
+.config-wrapper {
+  .Form__item {
+    width: 100%;
+
+    .Field {
+      margin-left: 30px;
+      width: 90%;
+    }
+
+    .Field .InstructionText {
+      visibility: visible;
+    }
+  }
+
+  .Radio-wrapper {
+    padding-top: 20px;
+  }
+
+  .radio-button {
+    margin-right: 20px;
+  }
+}
+
+.tippy-box[data-theme~="venus"] {
+  background-color: #475161;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  min-height: 1.375rem;
+  font-family: Inter;
+}
+.label-text {
+  margin-right: 3.125rem;
+}
