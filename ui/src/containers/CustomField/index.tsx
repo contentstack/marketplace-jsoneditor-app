@@ -32,14 +32,14 @@ const CustomField: React.FC = function () {
         const config = await appSdk?.getConfig();
         setState({
           config,
-          location: appSdk.location,
+          location: appSdk?.location,
           appSdkInitialized: true,
         });
 
-        appSdk.location.CustomField?.frame.updateHeight(300);
+        appSdk?.location?.CustomField?.frame?.updateHeight(300);
         isStringified = appSdk?.location?.CustomField?.fieldConfig?.stringify;
 
-        const initialData = appSdk.location.CustomField?.field.getData();
+        const initialData = appSdk?.location?.CustomField?.field?.getData();
         let jsonVal = [{}];
 
         if (initialData && !isEmpty(initialData)) {
@@ -48,7 +48,7 @@ const CustomField: React.FC = function () {
               typeof initialData[0] === "string" ?
                 [
                     JSON.parse(
-                      initialData[0].trim().length ? initialData[0] : "{}"
+                      initialData[0]?.trim()?.length ? initialData[0] : "{}"
                     ),
                   ]
                 : initialData;
@@ -77,12 +77,12 @@ const CustomField: React.FC = function () {
   };
 
   useEffect(() => {
-    state.location?.CustomField?.field?.setData(saceJsonData);
+    state?.location?.CustomField?.field?.setData(saceJsonData);
   }, [saceJsonData]);
 
   return (
     <div className="layout-container">
-      {state.appSdkInitialized && (
+      {state?.appSdkInitialized && (
         <JSONEditor onChange={onChangeSave} value={jsonData[0]} />
       )}
     </div>

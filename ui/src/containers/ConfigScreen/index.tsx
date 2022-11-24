@@ -42,7 +42,7 @@ const ConfigScreen: React.FC = function () {
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
-            await sdkConfigData.getInstallationData();
+            await sdkConfigData?.getInstallationData();
           const setInstallationDataOfSDK = sdkConfigData?.setInstallationData;
           setState({
             ...state,
