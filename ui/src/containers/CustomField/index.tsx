@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import constants from "../../common/constants";
 import { isEmpty } from "../../common/utils";
+import TrackJS from "../../trackjs";
 import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
 import JSONEditor from "../../components/jsoneditor";
@@ -29,6 +30,9 @@ const CustomField: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
+        // Adding Track.js metadata
+        TrackJS.addMetadata(appSdk);
+
         const config = await appSdk?.getConfig();
         setState({
           config,

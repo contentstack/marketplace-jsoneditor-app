@@ -11,6 +11,7 @@ import tippy from "tippy.js";
 import localeTexts from "../../common/locale/en-us";
 import constants from "../../common/constants";
 import { mergeObjects } from "../../common/utils";
+import TrackJS from "../../trackjs";
 import { TypeAppSdkConfigState } from "../../common/types";
 
 /* Import node module CSS */
@@ -39,6 +40,9 @@ const ConfigScreen: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
+        //Adding Track.js metadata
+        TrackJS.addMetadata(appSdk);
+
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
