@@ -1,5 +1,6 @@
 import React from "react";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import TrackJS from "../../trackjs";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import ConfigScreen from "../ConfigScreen";
 import CustomField from "../CustomField";
@@ -7,7 +8,7 @@ import "./venus.css";
 import "./styles.scss";
 
 /** HomeRedirectHandler - component to nandle redirect based on the window location pathname,
-	as react Router does not identifies pathname if the app is rendered in an iframe.
+  as react Router does not identifies pathname if the app is rendered in an iframe.
 */
 const HomeRedirectHandler = function () {
   if (window?.location?.pathname !== "/") {
@@ -15,6 +16,9 @@ const HomeRedirectHandler = function () {
   }
   return null;
 };
+
+// Track.js installation
+TrackJS.installation();
 
 /* App - The main app component that should be rendered */
 const App: React.FC = function () {

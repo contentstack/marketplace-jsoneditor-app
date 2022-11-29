@@ -11,6 +11,7 @@ import tippy from "tippy.js";
 import localeTexts from "../../common/locale/en-us";
 import constants from "../../common/constants";
 import { mergeObjects } from "../../common/utils";
+import TrackJS from "../../trackjs";
 import { TypeAppSdkConfigState } from "../../common/types";
 
 /* Import node module CSS */
@@ -39,6 +40,9 @@ const ConfigScreen: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
+        //Adding Track.js metadata
+        TrackJS.addMetadata(appSdk);
+
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
@@ -104,16 +108,16 @@ const ConfigScreen: React.FC = function () {
   return (
     <div className="layout-container">
       <div className="page-wrapper">
-        <form data-test-id="cs-form" className="config-wrapper">
+        <form data-testid="cs-form" className="config-wrapper">
           <div className="Form__item">
             <div
               className="Field Field--full json-field"
-              data-test-id="cs-field"
+              data-testid="cs-field"
             >
               <label
                 className="FieldLabel"
                 htmlFor="isStringified"
-                data-test-id="cs-field-label"
+                data-testid="cs-field-label"
               >
                 {localeTexts.configFields.entrySaveRadioButton.label}
                 <span className="FieldLabel__required-text">
@@ -123,12 +127,12 @@ const ConfigScreen: React.FC = function () {
               <div
                 className="tippy-wrapper"
                 id="help-text"
-                data-test-id="cs-tooltip"
+                data-testid="cs-tooltip"
               >
                 <VenusHelp />
               </div>
               <div className="Radio-wrapper">
-                <label data-test-id="cs-radio" className="Radio label-text">
+                <label data-testid="cs-radio-one" className="Radio label-text">
                   <input
                     id="jsonObject"
                     type="radio"
@@ -143,7 +147,7 @@ const ConfigScreen: React.FC = function () {
                     {localeTexts.configFields.entrySaveRadioButton.jsonObject}
                   </span>
                 </label>
-                <label data-test-id="cs-radio" className="Radio label-text">
+                <label data-testid="cs-radio-two" className="Radio label-text">
                   <input
                     id="stringified"
                     type="radio"
@@ -162,7 +166,7 @@ const ConfigScreen: React.FC = function () {
                   </span>
                 </label>
               </div>
-              <p className="InstructionText" data-test-id="cs-instruction-text">
+              <p className="InstructionText" data-testid="cs-instruction-text">
                 {localeTexts.configFields.entrySaveRadioButton.instruction}
               </p>
             </div>
