@@ -4,6 +4,9 @@
 .jsoneditor {
   height: 300px;
 }
+div.jsoneditor-tree {
+  border-radius: 10px;
+}
 
 .jsoneditor-menu {
   background-color: #6c5ce7;
