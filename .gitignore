@@ -23,3 +23,8 @@ node_modules/
 .vercel
 
 .eslintcache
+.dccache
+ui/.dccache
+ui/.env
+api/.env
+.env
