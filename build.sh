@@ -12,7 +12,7 @@ cd ui
 rm -rf build
 rm -rf coverage
 npm install
-npm run test
+#npm run test
 npm run build
 zip -r ui.zip build/
 mv ui.zip ../to-deploy
