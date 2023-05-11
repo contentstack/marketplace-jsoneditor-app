@@ -19,7 +19,13 @@ import "tippy.js/dist/tippy.css";
 /* Import our CSS */
 import "./styles.scss";
 
+import useJsErrorTracker from "../../hooks/useJsErrorTracker";
+
 const ConfigScreen: React.FC = function () {
+
+  // error tracking hooks
+  const { addMetadata, trackError } = useJsErrorTracker();
+
   const [state, setState] = useState<TypeAppSdkConfigState>({
     installationData: {
       configuration: {
@@ -60,9 +66,17 @@ const ConfigScreen: React.FC = function () {
           setIsStringified(
             state?.installationData?.configuration?.isStringified
           );
+
+          // setting metadata for js error tracker
+          addMetadata("stack", `${appSdk?.stack._data.name}`);
+          addMetadata("organization", `${appSdk?.currentUser.defaultOrganization}`);
+          addMetadata("api_key", `${stackKey}`);
+          addMetadata("user_uid", `${appSdk?.stack._data.collaborators[0].uid}`);
+          
         }
       })
       .catch((error) => {
+        trackError(error);
         console.error(constants.appSdkError, error);
       });
   }, []);
