@@ -20,11 +20,16 @@ import "tippy.js/dist/tippy.css";
 import "./styles.scss";
 
 import useJsErrorTracker from "../../hooks/useJsErrorTracker";
+import { useAppSdk } from "../../hooks/useAppSdk";
+import useAnalytics from "../../hooks/useAnalytics";
 
 const ConfigScreen: React.FC = function () {
 
   // error tracking hooks
   const { addMetadata, trackError } = useJsErrorTracker();
+  const { trackEvent } = useAnalytics();
+  const [appSdk] = useAppSdk();
+  
 
   const [state, setState] = useState<TypeAppSdkConfigState>({
     installationData: {
@@ -45,7 +50,7 @@ const ConfigScreen: React.FC = function () {
 
   useEffect(() => {
     ContentstackAppSdk.init()
-      .then(async (appSdk) => {
+      .then(async (appSdk: AppSdkProps) => {
         //Adding Track.js metadata
         TrackJS.addMetadata(appSdk);
 
@@ -108,6 +113,7 @@ const ConfigScreen: React.FC = function () {
 
   const updateCustomJSON = (e: any) => {
     const val = e?.target?.id !== "jsonObject";
+    trackEvent("State", { property: `Update Json` });
     setIsStringified(val);
     updateConfig({ target: { name: "isStringified", value: val } });
   };
