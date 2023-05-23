@@ -1,5 +1,7 @@
 import { expect, Locator, Page } from '@playwright/test';
 
+const {APP_HOST_URL, CONTENTSTACK_ORGANIZATION_UID} = process.env;
+
 export class AppLogin {
   readonly page: Page;
   readonly emailInput: Locator;
@@ -14,6 +16,8 @@ export class AppLogin {
     this.venusPasswordInput = this.page.locator('#password');
     this.loginButton = this.page.locator('button:has-text("Log In"), button:has-text("LOGIN")');
   }
+
+  
   // check app url
   async checkAppUrl(url: string) {
     await expect(this.page).toHaveURL(url);
@@ -21,7 +25,7 @@ export class AppLogin {
 
   // goto login url
   async getLoginPage() {
-    await this.page.goto(`${process.env.APP_HOST_URL}`);
+    await this.page.goto(APP_HOST_URL);
   }
 
   // contentstack login
@@ -36,7 +40,7 @@ export class AppLogin {
         await this.page.locator('.user-name').click();
         await this.page.click('text=New Interface');
         await this.page.click('.OrgDropdown');
-        await this.page.click(`#${process.env.CONTENTSTACK_ORGANIZATION_UID}`);
+        await this.page.click(CONTENTSTACK_ORGANIZATION_UID);
         await this.page.waitForTimeout(2000);
         await this.page.context().storageState({ path: 'storageState.json' });
         await this.page.close();
@@ -50,7 +54,7 @@ export class AppLogin {
       const venusLoginButton = await this.page.waitForSelector('button:has-text("Log In")');
       await venusLoginButton.click();
       await this.page.click('.OrgDropdown');
-      await this.page.click(`#${process.env.CONTENTSTACK_ORGANIZATION_UID}`);
+      await this.page.click(CONTENTSTACK_ORGANIZATION_UID);
       await this.page.waitForTimeout(2000);
       await this.page.context().storageState({ path: 'storageState.json' });
       await this.page.close();
