@@ -10,10 +10,23 @@ export class jsonEditorApp {
   async openJsonApp() {
     await this.page
     .goto(`${process.env.APP_BASE_URL}/#!/stack/${process.env.STACK_UID}/content-type/test_json_editor/en-us/entry/create`);
-  
+    
   }
 
   async fillJsonApp(){
+
+    await this.page.frameLocator('[data-testid="app-extension-frame"]').locator('div').filter({ hasText: /^\{\}$/ }).nth(1).click();
+
+    await this.page
+    .frameLocator('[data-testid="app-extension-frame"]')
+    .getByRole('textbox')
+    .press('ArrowLeft');
+
+    await this.page
+    .frameLocator(elements.FrameLocator)
+    .getByRole('textbox')
+    .fill('date : today');
+
     await this.page
       .frameLocator(elements.FrameLocator)
       .locator('div')

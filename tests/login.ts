@@ -1,63 +1,53 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Locator, Page } from "@playwright/test";
 
-const {APP_HOST_URL, CONTENTSTACK_ORGANIZATION_UID} = process.env;
-
-export class AppLogin {
+export class LoginPage {
+  // Define selectors
   readonly page: Page;
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
   readonly venusPasswordInput: Locator;
   readonly loginButton: Locator;
 
-  constructor(Page: Page) {
-    this.page = Page;
-    this.emailInput = this.page.locator('#email');
-    this.passwordInput = this.page.locator('#pw');
-    this.venusPasswordInput = this.page.locator('#password');
-    this.loginButton = this.page.locator('button:has-text("Log In"), button:has-text("LOGIN")');
+  // Initialize selectors using constructor
+  constructor(page: Page) {
+    this.page = page;
+    this.emailInput = page.locator("input[name='email']");
+    this.passwordInput = page.locator("input[name='password']");
+    this.venusPasswordInput = page.locator("input[name='password']");
+    this.loginButton = page.locator('button:has-text("Log In"), button:has-text("LOGIN")');
   }
 
-  
-  // check app url
-  async checkAppUrl(url: string) {
-    await expect(this.page).toHaveURL(url);
+  // Define methods
+  async visitLoginPage() {
+    if (process.env.ENV_URL) {
+      await this.page.goto(`${process.env.ENV_URL}#!/login`);
+    }
   }
 
-  // goto login url
-  async getLoginPage() {
-    await this.page.goto(APP_HOST_URL);
-  }
-
-  // contentstack login
-  async contentstackLogin(id, pass) {
-    // check for classic UI and venus UI
-    if ((await this.page.$('.user-session-page')) !== null) {
-      // contentstack classic ui login
-      try {
-        await this.emailInput.type(id);
-        await this.passwordInput.type(pass);
+  // login handler
+  async performLogin(email, password) {
+    try {
+      if ((await this.page.$(".user-session-page")) !== null) {
+        // Contentstack classic UI login
+        await this.emailInput.type(email);
+        await this.passwordInput.type(password);
         await this.loginButton.click();
-        await this.page.locator('.user-name').click();
-        await this.page.click('text=New Interface');
-        await this.page.click('.OrgDropdown');
-        await this.page.click(CONTENTSTACK_ORGANIZATION_UID);
+        await this.page.click(".user-name");
+        await this.page.click("text=New Interface");
+        await this.page.click(".OrgDropdown");
+        await this.page.click(`#${process.env.ORG_ID}`);
         await this.page.waitForTimeout(2000);
-        await this.page.context().storageState({ path: 'storageState.json' });
-        await this.page.close();
-      } catch (e) {
-        console.error(e);
+        await this.page.context().storageState({ path: "storageState.json" });
+      } else {
+        await this.emailInput.type(email);
+        await this.venusPasswordInput.type(password);
+        const venusLoginButton = await this.page.waitForSelector('button:has-text("Log In")');
+        await venusLoginButton.click();
+        await this.page.waitForTimeout(2000);
+        await this.page.context().storageState({ path: "storageState.json" });
       }
-    } else {
-      // contentstack venus ui login
-      await this.emailInput.type(id);
-      await this.venusPasswordInput.type(pass);
-      const venusLoginButton = await this.page.waitForSelector('button:has-text("Log In")');
-      await venusLoginButton.click();
-      await this.page.click('.OrgDropdown');
-      await this.page.click(CONTENTSTACK_ORGANIZATION_UID);
-      await this.page.waitForTimeout(2000);
-      await this.page.context().storageState({ path: 'storageState.json' });
-      await this.page.close();
+    } catch (e) {
+      console.error(e);
     }
   }
 }
