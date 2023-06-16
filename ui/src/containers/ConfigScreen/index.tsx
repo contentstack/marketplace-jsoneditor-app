@@ -46,14 +46,13 @@ const ConfigScreen: React.FC = function () {
     },
     appSdkInitialized: false,
   });
-  const [isStringified, setIsStringified] = useState(false);
+  const [isStringified,setIsStringified]=useState(false);
 
   useEffect(() => {
     ContentstackAppSdk.init()
-      .then(async (appSdk: AppSdkProps) => {
+      .then(async (appSdk:AppSdkProps) => {
         //Adding Track.js metadata
         TrackJS.addMetadata(appSdk);
-
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
@@ -71,13 +70,11 @@ const ConfigScreen: React.FC = function () {
           setIsStringified(
             state?.installationData?.configuration?.isStringified
           );
-
           // setting metadata for js error tracker
           addMetadata("stack", `${appSdk?.stack._data.name}`);
           addMetadata("organization", `${appSdk?.currentUser.defaultOrganization}`);
           addMetadata("api_key", `${stackKey}`);
           addMetadata("user_uid", `${appSdk?.stack._data.collaborators[0].uid}`);
-          
         }
       })
       .catch((error) => {
@@ -96,10 +93,8 @@ const ConfigScreen: React.FC = function () {
     if (typeof fieldValue === "string") fieldValue = fieldValue?.trim();
     const updatedConfig = state?.installationData?.configuration || {};
     const updatedServerConfig = state?.installationData?.serverConfiguration;
-
     if (fieldName === "auth_token") updatedServerConfig[fieldName] = fieldValue;
     else updatedConfig[fieldName] = fieldValue;
-
     if (typeof state?.setInstallationData !== "undefined") {
       await state?.setInstallationData({
         ...state?.installationData,
@@ -113,7 +108,7 @@ const ConfigScreen: React.FC = function () {
 
   const updateCustomJSON = (e: any) => {
     const val = e?.target?.id !== "jsonObject";
-    trackEvent("State", { property: `Update Json` });
+    trackEvent("Clicked", { property: `Update Json` });
     setIsStringified(val);
     updateConfig({ target: { name: "isStringified", value: val } });
   };
