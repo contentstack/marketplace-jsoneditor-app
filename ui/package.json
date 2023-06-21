@@ -7,6 +7,7 @@
     "@types/node": "^12.20.37",
     "@types/react": "^17.0.35",
     "@types/react-dom": "^17.0.11",
+    "@datadog/browser-rum": "^4.25.0",
     "ajv": "^8.8.2",
     "brace": "^0.11.1",
     "jsoneditor": "^9.5.8",
