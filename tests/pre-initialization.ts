@@ -27,8 +27,8 @@ export const getAuthToken = async (): Promise<string> => {
       },
       data: {
         user: {
-          email: process.env.CONTENTSTACK_LOGIN,
-          password: process.env.CONTENTSTACK_PASSWORD,
+          email: process.env.BASIC_AUTH_USERNAME,
+          password: process.env.BASIC_AUTH_PASSWORD,
         },
       },
     };
