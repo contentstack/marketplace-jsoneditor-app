@@ -51,13 +51,6 @@ export const createApp = async (authToken: string) => {
     data: {
       name: `Json editor App ${Math.floor(Math.random() * 1000)}`,
       target_type: "stack",
-      oauth: {
-        redirect_uri: "http://localhost:3000/oauth-callback",
-        " user_token_config": {
-          enabled: true,
-          allow_pkce: true,
-        },
-      },
     },
   };
   try {
@@ -81,7 +74,7 @@ export const updateApp = async (authToken: string, appId: string) => {
       ui_location: {
         locations: [
           {
-            type: "cs.cm.stack.dashboard",
+            type: "cs.cm.stack.field_extension",
             meta: [
               {
                 name: `Json editor app ${Math.floor(Math.random() * 1000)}`,
