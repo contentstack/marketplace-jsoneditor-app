@@ -14,7 +14,7 @@ async function globalSetup(config: FullConfig) {
   });
   loginPage = new LoginPage(page);
   await loginPage.visitLoginPage();
-  await loginPage.performLogin(process.env.BASIC_AUTH_USERNAME, process.env.BASIC_AUTH_PASSWORD);
+  await loginPage.performLogin(process.env.EMAIL, process.env.PASSWORD);
   await getAuthToken();
 }
 
