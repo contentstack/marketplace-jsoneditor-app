@@ -3,7 +3,6 @@ import { jsonEditorApp } from '../pages/jsoneditorpage';
 
 test.describe(" Json editor App at entry", () => {
   let jsoneditorapp;
-  test.use({ storageState: "storageState.json" });
   
   test('Should Apply all the Json app tests', async ({page}) => {
     jsoneditorapp = new jsonEditorApp(page);
