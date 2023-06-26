@@ -226,10 +226,7 @@ export const createEntry = async (
     return error;
   }
 };
-//scheduling publish of entry with respective to the current month
-const date = new Date();
-const currentMonth = ("0" + (date.getMonth() + 1)).slice(-2);
-const publishDate = "2023-" + `${currentMonth}` + "-13";
+
 //publish an entry
 export const publishEntry = async (
   authToken: string | undefined,
@@ -254,7 +251,6 @@ export const publishEntry = async (
       },
       locale: "en-us",
       version: 1,
-      scheduled_at: `${publishDate}T15:30:00.0002`,
     },
   };
   try {
@@ -264,44 +260,7 @@ export const publishEntry = async (
     return error;
   }
 };
-//creating releases
-export const createRelease = async (
-  authToken: string | undefined,
-  contentTypeId: string | undefined,
-  entryId: string | undefined,
-  stackApiKey: string | undefined,
-  mgmtToken: string | undefined
-) => {
-  let generateTitle = `Test Release ${Math.floor(Math.random() * 1000)}`;
-  let options = {
-    url: `https://${process.env.BASE_API_URL}/v3/releases?include`,
-    method: "POST",
-    headers: {
-      api_key: stackApiKey,
-      authtoken: authToken,
-      authorization: mgmtToken,
-      "Content-type": "application/json",
-    },
-    data: {
-      release: {
-        name: generateTitle,
-        description: "Json editor app e2e testing demo data",
-        item: {
-          uid: entryId,
-          content_type_uid: contentTypeId,
-          action: "publish",
-          locale: "en-us",
-        },
-      },
-    },
-  };
-  try {
-    let result = await axios(options);
-    return result.data;
-  } catch (error) {
-    return error;
-  }
-};
+
 //adding entry to release
 export const addEntryToRelease = async (
   authToken: string | undefined,
@@ -333,64 +292,6 @@ export const addEntryToRelease = async (
   try {
     let result = await axios(options);
     return result.data;
-  } catch (error) {
-    return error;
-  }
-};
-//deploy the release
-export const deployRelease = async (
-  authToken: string | undefined,
-  stackApiKey: string | undefined,
-  mgmtToken: string | undefined,
-  releaseID: string | undefined
-) => {
-  let options = {
-    url: `https://${process.env.BASE_API_URL}/v3/releases/${releaseID}/deploy`,
-    method: "POST",
-    headers: {
-      api_key: stackApiKey,
-      authtoken: authToken,
-      authorization: mgmtToken,
-      "Content-type": "application/json",
-    },
-    data: {
-      release: {
-        scheduled_at: `${publishDate}T15:27:29.0002`,
-        action: "publish",
-        environments: ["preview"],
-        locales: ["en-us"],
-      },
-    },
-  };
-  try {
-    let result = await axios(options);
-    return result.data;
-  } catch (error) {
-    return error;
-  }
-};
-// get list of apps/extension IDs
-export const getExtensionFieldUid = async (
-  authToken: string,
-  stackApiKey: string | undefined
-): Promise<ExtensionUid[]> => {
-  let options = {
-    url: `https://${process.env.BASE_API_URL}/v3/extensions`,
-    method: "GET",
-    params: {
-      query: {
-        type: "field",
-      },
-      include_marketplace_extensions: true,
-    },
-    headers: {
-      api_key: stackApiKey,
-      authtoken: authToken,
-    },
-  };
-  try {
-    let result = await axios(options);
-    return result.data.extensions[0].uid;
   } catch (error) {
     return error;
   }
