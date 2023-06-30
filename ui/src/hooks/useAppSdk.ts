@@ -13,6 +13,7 @@ export const appSdkRefAtom = atom<Extension | null>(null);
  * To be used during Sdk initialization
  */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// eslint-disable-next-line arrow-body-style
 export const useAppSdk = (): [Extension | null, any] => {
   return useAtom(appSdkRefAtom);
 };

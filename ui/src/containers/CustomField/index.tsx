@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import constants from "../../common/constants";
 import { isEmpty } from "../../common/utils";
-import TrackJS from "../../trackjs";
 import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
 import JSONEditor from "../../components/jsoneditor";
@@ -14,7 +13,7 @@ const CustomField: React.FC = function () {
     appSdkInitialized: false,
   });
   const [jsonData, setJsonData] = useState<Array<any>>([{}]);
-  const [saceJsonData, setSaveJsonData] = useState<Array<any>>([{}]);
+  const [saveJsonData, setSaveJsonData] = useState<Array<any>>([{}]);
   let isStringified: any;
 
   const toStringify = (localConfig: any, globalConfig: any) => {
@@ -30,9 +29,6 @@ const CustomField: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
-        // Adding Track.js metadata
-        TrackJS.addMetadata(appSdk);
-
         const config = await appSdk?.getConfig();
         setState({
           config,
@@ -81,8 +77,8 @@ const CustomField: React.FC = function () {
   };
 
   useEffect(() => {
-    state?.location?.CustomField?.field?.setData(saceJsonData);
-  }, [saceJsonData]);
+    state?.location?.CustomField?.field?.setData(saveJsonData);
+  }, [saveJsonData]);
 
   return (
     <div className="layout-container">

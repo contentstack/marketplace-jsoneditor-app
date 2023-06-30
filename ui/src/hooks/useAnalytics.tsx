@@ -1,13 +1,21 @@
-import { useAppSdk } from './useAppSdk';
+import { useCallback } from "react";
+import { useAppSdk } from "./useAppSdk";
 
+const ENV: string = process.env.NODE_ENV || "";
+
+/**
+ * useAnalytics hook to track user actions and events in application
+ */
 const useAnalytics = () => {
-  const [appSdk] = useAppSdk();
-
-  const trackEvent = (event: string, eventData: any = {}) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return appSdk?.pulse(event, eventData);
-  };
+  const [appSDK] = useAppSdk();
+  const trackEvent = useCallback(
+    (event: string, eventData: any = {}) => {
+      if (ENV === "production") {
+        appSDK?.pulse(event, eventData);
+      }
+    },
+    [appSDK]
+  );
 
   return { trackEvent };
 };

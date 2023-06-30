@@ -1,6 +1,5 @@
 import React from "react";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
-import TrackJS from "../../trackjs";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import ConfigScreen from "../ConfigScreen";
 import CustomField from "../CustomField";
@@ -17,8 +16,6 @@ const HomeRedirectHandler = function () {
   return null;
 };
 
-// Track.js installation
-TrackJS.installation();
 
 /* App - The main app component that should be rendered */
 const App: React.FC = function () {

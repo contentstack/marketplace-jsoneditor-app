@@ -11,7 +11,6 @@ import tippy from "tippy.js";
 import localeTexts from "../../common/locale/en-us";
 import constants from "../../common/constants";
 import { mergeObjects } from "../../common/utils";
-import TrackJS from "../../trackjs";
 import { TypeAppSdkConfigState } from "../../common/types";
 
 /* Import node module CSS */
@@ -50,9 +49,7 @@ const ConfigScreen: React.FC = function () {
 
   useEffect(() => {
     ContentstackAppSdk.init()
-      .then(async (appSdk:AppSdkProps) => {
-        //Adding Track.js metadata
-        TrackJS.addMetadata(appSdk);
+      .then(async (appSdk) => {
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
           const installationDataFromSDK =
@@ -70,11 +67,6 @@ const ConfigScreen: React.FC = function () {
           setIsStringified(
             state?.installationData?.configuration?.isStringified
           );
-          // setting metadata for js error tracker
-          addMetadata("stack", `${appSdk?.stack._data.name}`);
-          addMetadata("organization", `${appSdk?.currentUser.defaultOrganization}`);
-          addMetadata("api_key", `${stackKey}`);
-          addMetadata("user_uid", `${appSdk?.stack._data.collaborators[0].uid}`);
         }
       })
       .catch((error) => {

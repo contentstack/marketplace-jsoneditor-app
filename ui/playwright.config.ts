@@ -14,10 +14,10 @@ const config: PlaywrightTestConfig = {
    * globalSetup & teardown of test data
    * globalTeardown: require.resolve("./tests/global-teardown"),
    */
-  globalSetup: require.resolve("./tests/global-setup"),
+  globalSetup: require.resolve("../ui/tests/global-setup"),
 
 
-  testDir: "./tests/e2e",
+  testDir: "../ui/tests/e2e",
   /* Maximum time one test can run for. */
   timeout: 10 * 10000,
   expect: {
@@ -42,7 +42,7 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 0,
     screenshot: "off",
     video: "off",
-    viewport: { width: 1200, height: 720 },
+    viewport: { width: 1000, height: 720 },
     trace: "on-first-retry",
     baseURL: process.env.APP_HOST_URL,
     launchOptions: {

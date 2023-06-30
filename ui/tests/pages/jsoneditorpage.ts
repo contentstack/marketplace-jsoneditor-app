@@ -9,7 +9,7 @@ export class jsonEditorApp {
 
   async openJsonApp() {
     await this.page
-    .goto(`${process.env.APP_BASE_URL}/#!/stack/${process.env.STACK_UID}/content-type/test_json_editor/en-us/entry/create`);
+    .goto(`${process.env.ENV_URL}/#!/stack/${process.env.STACK_UID}/content-type/test_json_editor/en-us/entry/create`);
     
   }
 
