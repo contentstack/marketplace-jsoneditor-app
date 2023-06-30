@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ContentstackAppSdk from "@contentstack/app-sdk";
-import constants from "../../common/constants";
+import constants, { eventNames } from "../../common/constants";
 import { isEmpty } from "../../common/utils";
 import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
+import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
 
 const CustomField: React.FC = function () {
@@ -13,7 +14,10 @@ const CustomField: React.FC = function () {
     appSdkInitialized: false,
   });
   const [jsonData, setJsonData] = useState<Array<any>>([{}]);
+  const { trackEvent } = useAnalytics();
   const [saveJsonData, setSaveJsonData] = useState<Array<any>>([{}]);
+  const { APP_INITIALIZE_SUCCESS, APP_INITIALIZE_FAILURE } = eventNames;
+
   let isStringified: any;
 
   const toStringify = (localConfig: any, globalConfig: any) => {
@@ -62,9 +66,11 @@ const CustomField: React.FC = function () {
             [JSON.stringify(jsonVal[0])]
             : jsonVal
         );
+        trackEvent(APP_INITIALIZE_SUCCESS)
       })
       .catch((error) => {
         console.error(constants.appSdkError, error);
+        trackEvent(APP_INITIALIZE_FAILURE)
       });
   }, []);
 
