@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import ContentstackAppSdk from "@contentstack/app-sdk";
-import constants from "../../common/constants";
+import constants, { eventNames } from "../../common/constants";
 import { isEmpty } from "../../common/utils";
-import TrackJS from "../../trackjs";
 import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
+import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
 
 const CustomField: React.FC = function () {
@@ -14,7 +14,10 @@ const CustomField: React.FC = function () {
     appSdkInitialized: false,
   });
   const [jsonData, setJsonData] = useState<Array<any>>([{}]);
-  const [saceJsonData, setSaveJsonData] = useState<Array<any>>([{}]);
+  const { trackEvent } = useAnalytics();
+  const [saveJsonData, setSaveJsonData] = useState<Array<any>>([{}]);
+  const { APP_INITIALIZE_SUCCESS, APP_INITIALIZE_FAILURE } = eventNames;
+
   let isStringified: any;
 
   const toStringify = (localConfig: any, globalConfig: any) => {
@@ -30,9 +33,6 @@ const CustomField: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
-        // Adding Track.js metadata
-        TrackJS.addMetadata(appSdk);
-
         const config = await appSdk?.getConfig();
         setState({
           config,
@@ -66,9 +66,11 @@ const CustomField: React.FC = function () {
             [JSON.stringify(jsonVal[0])]
             : jsonVal
         );
+        trackEvent(APP_INITIALIZE_SUCCESS)
       })
       .catch((error) => {
         console.error(constants.appSdkError, error);
+        trackEvent(APP_INITIALIZE_FAILURE)
       });
   }, []);
 
@@ -81,8 +83,8 @@ const CustomField: React.FC = function () {
   };
 
   useEffect(() => {
-    state?.location?.CustomField?.field?.setData(saceJsonData);
-  }, [saceJsonData]);
+    state?.location?.CustomField?.field?.setData(saveJsonData);
+  }, [saveJsonData]);
 
   return (
     <div className="layout-container">
