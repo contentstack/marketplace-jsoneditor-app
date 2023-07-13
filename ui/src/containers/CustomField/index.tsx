@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { get } from "lodash";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import constants, { eventNames } from "../../common/constants";
 import { isEmpty } from "../../common/utils";
@@ -6,8 +7,12 @@ import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
 import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
+import getAppLocation from "../../common/utils/function";
+import useJsErrorTracker from "../../hooks/useJsErrorTracker";
 
 const CustomField: React.FC = function () {
+  // error tracking hooks
+  const { setErrorsMetaData, trackError } = useJsErrorTracker();
   const [state, setState] = useState<TypeSDKData>({
     config: {},
     location: {},
@@ -48,51 +53,39 @@ const CustomField: React.FC = function () {
 
         if (initialData && !isEmpty(initialData)) {
           try {
-            jsonVal =
-              typeof initialData[0] === "string" ?
-                [
-                    JSON.parse(
-                      initialData[0]?.trim()?.length ? initialData[0] : "{}"
-                    ),
-                  ]
-                : initialData;
+            jsonVal = typeof initialData[0] === "string" ? [JSON.parse(initialData[0]?.trim()?.length ? initialData[0] : "{}")] : initialData;
           } catch (e) {
             jsonVal = [{}];
           }
           setJsonData(jsonVal);
         }
-        setSaveJsonData(
-          toStringify(isStringified, config?.isStringified) ?
-            [JSON.stringify(jsonVal[0])]
-            : jsonVal
-        );
-        trackEvent(APP_INITIALIZE_SUCCESS)
+        setSaveJsonData(toStringify(isStringified, config?.isStringified) ? [JSON.stringify(jsonVal[0])] : jsonVal);
+        trackEvent(APP_INITIALIZE_SUCCESS);
+        const appLocation: string = getAppLocation(appSdk);
+        const properties = {
+          Stack: appSdk?.stack._data.api_key,
+          Organization: appSdk?.currentUser.defaultOrganization,
+          "App Location": appLocation,
+          "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), // first uuid from collaborators
+        };
+        setErrorsMetaData(properties); // set global event data for errors
       })
       .catch((error) => {
+        trackError(error);
         console.error(constants.appSdkError, error);
-        trackEvent(APP_INITIALIZE_FAILURE)
+        trackEvent(APP_INITIALIZE_FAILURE);
       });
   }, []);
 
   const onChangeSave = (saveData: any) => {
-    state.location?.CustomField?.field?.setData(
-      toStringify(isStringified, state?.config?.isStringified) ?
-        [JSON.stringify(saveData)]
-        : [saveData]
-    );
+    state.location?.CustomField?.field?.setData(toStringify(isStringified, state?.config?.isStringified) ? [JSON.stringify(saveData)] : [saveData]);
   };
 
   useEffect(() => {
     state?.location?.CustomField?.field?.setData(saveJsonData);
   }, [saveJsonData]);
 
-  return (
-    <div className="layout-container">
-      {state?.appSdkInitialized && (
-        <JSONEditor onChange={onChangeSave} value={jsonData[0]} />
-      )}
-    </div>
-  );
+  return <div className="layout-container">{state?.appSdkInitialized && <JSONEditor onChange={onChangeSave} value={jsonData[0]} />}</div>;
 };
 
 export default CustomField;
