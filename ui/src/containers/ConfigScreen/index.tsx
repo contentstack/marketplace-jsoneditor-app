@@ -1,6 +1,7 @@
 /* Import React modules */
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { get } from "lodash";
 /* Import other node modules */
 
 import VenusHelp from "../../components/venus-help";
@@ -11,7 +12,7 @@ import tippy from "tippy.js";
 import localeTexts from "../../common/locale/en-us";
 import constants from "../../common/constants";
 import { mergeObjects } from "../../common/utils";
-import TrackJS from "../../trackjs";
+import getAppLocation from "../../common/utils/function";
 import { TypeAppSdkConfigState } from "../../common/types";
 
 /* Import node module CSS */
@@ -19,7 +20,16 @@ import "tippy.js/dist/tippy.css";
 /* Import our CSS */
 import "./styles.scss";
 
+import useJsErrorTracker from "../../hooks/useJsErrorTracker";
+import { useAppSdk } from "../../hooks/useAppSdk";
+import useAnalytics from "../../hooks/useAnalytics";
+
 const ConfigScreen: React.FC = function () {
+  // error tracking hooks
+  const { setErrorsMetaData, trackError } = useJsErrorTracker();
+  const { trackEvent } = useAnalytics();
+  const [appSdk] = useAppSdk();
+
   const [state, setState] = useState<TypeAppSdkConfigState>({
     installationData: {
       configuration: {
@@ -40,29 +50,29 @@ const ConfigScreen: React.FC = function () {
   useEffect(() => {
     ContentstackAppSdk.init()
       .then(async (appSdk) => {
-        //Adding Track.js metadata
-        TrackJS.addMetadata(appSdk);
-
         const sdkConfigData = appSdk?.location?.AppConfigWidget?.installation;
         if (sdkConfigData) {
-          const installationDataFromSDK =
-            await sdkConfigData?.getInstallationData();
+          const installationDataFromSDK = await sdkConfigData?.getInstallationData();
           const setInstallationDataOfSDK = sdkConfigData?.setInstallationData;
           setState({
             ...state,
-            installationData: mergeObjects(
-              state?.installationData,
-              installationDataFromSDK
-            ),
+            installationData: mergeObjects(state?.installationData, installationDataFromSDK),
             setInstallationData: setInstallationDataOfSDK,
             appSdkInitialized: true,
           });
-          setIsStringified(
-            state?.installationData?.configuration?.isStringified
-          );
+          setIsStringified(state?.installationData?.configuration?.isStringified);
+          const appLocation: string = getAppLocation(appSdk);
+          let properties = {
+            Stack: appSdk?.stack._data.api_key,
+            Organization: appSdk?.currentUser.defaultOrganization,
+            "App Location": appLocation,
+            "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), //first uuid from collaborators
+          };
+          setErrorsMetaData(properties); // set global event data for errors
         }
       })
       .catch((error) => {
+        trackError(error);
         console.error(constants.appSdkError, error);
       });
   }, []);
@@ -77,10 +87,8 @@ const ConfigScreen: React.FC = function () {
     if (typeof fieldValue === "string") fieldValue = fieldValue?.trim();
     const updatedConfig = state?.installationData?.configuration || {};
     const updatedServerConfig = state?.installationData?.serverConfiguration;
-
     if (fieldName === "auth_token") updatedServerConfig[fieldName] = fieldValue;
     else updatedConfig[fieldName] = fieldValue;
-
     if (typeof state?.setInstallationData !== "undefined") {
       await state?.setInstallationData({
         ...state?.installationData,
@@ -94,6 +102,7 @@ const ConfigScreen: React.FC = function () {
 
   const updateCustomJSON = (e: any) => {
     const val = e?.target?.id !== "jsonObject";
+    trackEvent("Clicked", { property: `Update Json` });
     setIsStringified(val);
     updateConfig({ target: { name: "isStringified", value: val } });
   };
@@ -110,60 +119,26 @@ const ConfigScreen: React.FC = function () {
       <div className="page-wrapper">
         <form data-testid="cs-form" className="config-wrapper">
           <div className="Form__item">
-            <div
-              className="Field Field--full json-field"
-              data-testid="cs-field"
-            >
-              <label
-                className="FieldLabel"
-                htmlFor="isStringified"
-                data-testid="cs-field-label"
-              >
+            <div className="Field Field--full json-field" data-testid="cs-field">
+              <label className="FieldLabel" htmlFor="isStringified" data-testid="cs-field-label">
                 {localeTexts.configFields.entrySaveRadioButton.label}
                 <span className="FieldLabel__required-text">
                   <span className="">*</span>
                 </span>
               </label>
-              <div
-                className="tippy-wrapper"
-                id="help-text"
-                data-testid="cs-tooltip"
-              >
+              <div className="tippy-wrapper" id="help-text" data-testid="cs-tooltip">
                 <VenusHelp />
               </div>
               <div className="Radio-wrapper">
                 <label data-testid="cs-radio-one" className="Radio label-text">
-                  <input
-                    id="jsonObject"
-                    type="radio"
-                    name="isStringified"
-                    required
-                    value="false"
-                    checked={!isStringified}
-                    onChange={updateCustomJSON}
-                  />
+                  <input id="jsonObject" type="radio" name="isStringified" required value="false" checked={!isStringified} onChange={updateCustomJSON} />
                   <span className="Radio__box"></span>
-                  <span className="Radio__label">
-                    {localeTexts.configFields.entrySaveRadioButton.jsonObject}
-                  </span>
+                  <span className="Radio__label">{localeTexts.configFields.entrySaveRadioButton.jsonObject}</span>
                 </label>
                 <label data-testid="cs-radio-two" className="Radio label-text">
-                  <input
-                    id="stringified"
-                    type="radio"
-                    name="isStringified"
-                    required
-                    value="true"
-                    checked={isStringified}
-                    onChange={updateCustomJSON}
-                  />
+                  <input id="stringified" type="radio" name="isStringified" required value="true" checked={isStringified} onChange={updateCustomJSON} />
                   <span className="Radio__box"></span>
-                  <span className="Radio__label">
-                    {
-                      localeTexts.configFields.entrySaveRadioButton
-                        .jsonStringified
-                    }
-                  </span>
+                  <span className="Radio__label">{localeTexts.configFields.entrySaveRadioButton.jsonStringified}</span>
                 </label>
               </div>
               <p className="InstructionText" data-testid="cs-instruction-text">

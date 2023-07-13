@@ -3,13 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    "plugin:react/recommended",
-    "plugin:import/typescript",
-    "airbnb",
-    "airbnb-typescript",
-    "prettier",
-  ],
+  extends: ["plugin:react/recommended", "plugin:import/typescript", "airbnb", "airbnb-typescript", "prettier"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
@@ -23,6 +17,9 @@ module.exports = {
   },
   plugins: ["import", "react", "react-hooks", "@typescript-eslint"],
   rules: {
+    "arrow-body-style": 0,
+    "no-plusplus": 0,
+    "no-underscore-dangle": 0,
     "operator-linebreak": [
       "error",
       "after",
