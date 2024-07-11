@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import React, { useEffect, useState } from "react";
 import { get } from "lodash";
 import ContentstackAppSdk from "@contentstack/app-sdk";
@@ -53,6 +54,7 @@ const CustomField: React.FC = function () {
 
         if (initialData && !isEmpty(initialData)) {
           try {
+            //@ts-ignore
             jsonVal = typeof initialData[0] === "string" ? [JSON.parse(initialData[0]?.trim()?.length ? initialData[0] : "{}")] : initialData;
           } catch (e) {
             jsonVal = [{}];
