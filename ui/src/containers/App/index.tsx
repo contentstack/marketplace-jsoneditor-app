@@ -1,20 +1,10 @@
 import React from "react";
-import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import ConfigScreen from "../ConfigScreen";
 import CustomField from "../CustomField";
 import "./venus.css";
 import "./styles.scss";
-
-/** HomeRedirectHandler - component to nandle redirect based on the window location pathname,
-  as react Router does not identifies pathname if the app is rendered in an iframe.
-*/
-const HomeRedirectHandler = function () {
-  if (window?.location?.pathname !== "/") {
-    return <Navigate to={{ pathname: window?.location?.pathname }} />;
-  }
-  return null;
-};
 
 
 /* App - The main app component that should be rendered */
@@ -24,7 +14,6 @@ const App: React.FC = function () {
       <ErrorBoundary>
         <HashRouter>
           <Routes>
-            <Route path="/" element={<HomeRedirectHandler />} />
             <Route path="/config" element={<ConfigScreen />} />
             <Route path="/custom-field" element={<CustomField />} />
           </Routes>
