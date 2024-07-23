@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { JsonEditor } from "jsoneditor-react";
 import ace from "brace";
 import "brace/mode/json";
@@ -12,10 +12,6 @@ const JSONEditor: React.FC<TypeJsonProps> = function ({
   onChange,
 }) {
   const jsonEditorRef = useRef<JsonEditor | null>(null);
-
-  useEffect(() => {
-    jsonEditorRef?.current?.set(value);
-  }, [value]);
 
   const setRef = (instance: any) => {
     jsonEditorRef.current = instance?.jsonEditor;
