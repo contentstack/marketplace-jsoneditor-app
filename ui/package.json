@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@contentstack/app-sdk": "^2.0.1",
-    "@datadog/browser-rum": "^4.25.0",
+    "@datadog/browser-rum": "^5.29.1",
     "@playwright/test": "1.25.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
