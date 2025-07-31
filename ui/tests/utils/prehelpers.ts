@@ -1,6 +1,7 @@
 // module dependencies
 const axios = require("axios");
 const jsonfile = require("jsonfile");
+
 interface ExtensionUid {
   uid: string;
 }
@@ -16,7 +17,7 @@ const writeFile = async (obj: any) => {
 };
 // get authtoken
 export const getAuthToken = async (): Promise<string> => {
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/user-session`,
     method: "POST",
     headers: {
@@ -30,8 +31,8 @@ export const getAuthToken = async (): Promise<string> => {
     },
   };
   try {
-    let result = await axios(options);
-    savedObj["authToken"] = result.data.user.authtoken;
+    const result = await axios(options);
+    savedObj.authToken = result.data.user.authtoken;
     await writeFile(savedObj);
     return result.data.user.authtoken;
   } catch (error) {
@@ -40,7 +41,7 @@ export const getAuthToken = async (): Promise<string> => {
 };
 // create app in developer hub
 export const createApp = async (authToken: string) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps`,
     method: "POST",
     headers: {
@@ -54,7 +55,7 @@ export const createApp = async (authToken: string) => {
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data.data;
   } catch (error) {
     return error;
@@ -62,7 +63,7 @@ export const createApp = async (authToken: string) => {
 };
 // updating app in developer hub & set baseUrl
 export const updateApp = async (authToken: string, appId: string) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps/${appId}`,
     method: "PUT",
     headers: {
@@ -92,7 +93,7 @@ export const updateApp = async (authToken: string, appId: string) => {
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
@@ -100,7 +101,7 @@ export const updateApp = async (authToken: string, appId: string) => {
 };
 // install app in stack & return installation id
 export const installApp = async (authToken: string, appId: string, stackApiKey: string | undefined) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps/${appId}/install`,
     method: "POST",
     headers: {
@@ -114,7 +115,7 @@ export const installApp = async (authToken: string, appId: string, stackApiKey: 
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data.data;
   } catch (error) {
     return error;
@@ -122,7 +123,7 @@ export const installApp = async (authToken: string, appId: string, stackApiKey: 
 };
 // get installed app
 export const getInstalledApp = async (authToken: string, appId: string) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps/${appId}/installations`,
     method: "GET",
     headers: {
@@ -140,7 +141,7 @@ export const getInstalledApp = async (authToken: string, appId: string) => {
 };
 // uninstall app from the stack
 export const uninstallApp = async (authToken: string, installId: string) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/installations/${installId}`,
     method: "DELETE",
     headers: {
@@ -150,7 +151,7 @@ export const uninstallApp = async (authToken: string, installId: string) => {
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
@@ -163,7 +164,7 @@ export const createContentType = async (
   stackApiKey: string | undefined
 ) => {
   const generateUid = `Test Content Type_${Math.floor(Math.random() * 1000)}`;
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/content_types`,
     method: "POST",
     headers: {
@@ -192,7 +193,7 @@ export const createContentType = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
@@ -204,8 +205,8 @@ export const createEntry = async (
   contentTypeId: string | undefined,
   stackApiKey: string | undefined
 ) => {
-  let generateTitle = `Test Entry ${Math.floor(Math.random() * 1000)}`;
-  let options = {
+  const generateTitle = `Test Entry ${Math.floor(Math.random() * 1000)}`;
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/content_types/${contentTypeId}/entries`,
     method: "POST",
     headers: {
@@ -220,14 +221,14 @@ export const createEntry = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data.entry.uid;
   } catch (error) {
     return error;
   }
 };
 
-//publish an entry
+// publish an entry
 export const publishEntry = async (
   authToken: string | undefined,
   contentTypeId: string | undefined,
@@ -235,7 +236,7 @@ export const publishEntry = async (
   stackApiKey: string | undefined,
   mgmtToken: string | undefined
 ) => {
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/content_types/${contentTypeId}/entries/${entryId}/publish`,
     method: "POST",
     headers: {
@@ -254,14 +255,14 @@ export const publishEntry = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
   }
 };
 
-//adding entry to release
+// adding entry to release
 export const addEntryToRelease = async (
   authToken: string | undefined,
   contentTypeId: string | undefined,
@@ -270,7 +271,7 @@ export const addEntryToRelease = async (
   mgmtToken: string | undefined,
   releaseID: string | undefined
 ) => {
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/releases/${releaseID}/item?`,
     method: "POST",
     headers: {
@@ -290,7 +291,7 @@ export const addEntryToRelease = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
