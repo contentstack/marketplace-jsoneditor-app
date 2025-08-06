@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/prefer-default-export
 export const elements = {
     FrameLocator: '[data-testid="app-extension-frame"]',
     formatJsonName: 'Format JSON data, with proper indentation and line feeds (Ctrl+I)',

@@ -1,8 +1,10 @@
-import { Locator, Page, Frame, expect } from '@playwright/test';
-import { elements } from '../elements/jsoneditor.elements';
+import { Page, expect } from '@playwright/test';
 
+// TODO: Fix the linting errors
+// eslint-disable-next-line import/prefer-default-export, @typescript-eslint/naming-convention
 export class jsonEditorApp {
   readonly page: Page;
+
   constructor(page: Page) {
     this.page = page;
   }
