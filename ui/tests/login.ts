@@ -1,11 +1,16 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
+// eslint-disable-next-line import/prefer-default-export
 export class LoginPage {
   // Define selectors
   readonly page: Page;
+
   readonly emailInput: Locator;
+
   readonly passwordInput: Locator;
+
   readonly venusPasswordInput: Locator;
+
   readonly loginButton: Locator;
 
   // Initialize selectors using constructor

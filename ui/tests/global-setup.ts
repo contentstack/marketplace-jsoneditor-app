@@ -1,10 +1,9 @@
 // global-setup.ts
-import { chromium, FullConfig } from "@playwright/test";
+import { chromium } from "@playwright/test";
 import { LoginPage } from "./login";
 import { getAuthToken } from "./utils/prehelpers";
 
-async function globalSetup(config: FullConfig) {
-  let loginPage: LoginPage;
+async function globalSetup() {
   const browser = await chromium.launch();
   const page = await browser.newPage({
     httpCredentials: {
@@ -12,7 +11,7 @@ async function globalSetup(config: FullConfig) {
       password: process.env.BASIC_AUTH_PASSWORD || "",
     },
   });
-  loginPage = new LoginPage(page);
+  const loginPage = new LoginPage(page);
   await loginPage.visitLoginPage();
   await loginPage.performLogin(process.env.EMAIL, process.env.PASSWORD);
   await getAuthToken();

@@ -50,7 +50,9 @@ const config: PlaywrightTestConfig = {
         isEnabled: () => {
           return false;
         },
-        log: (name, severity, message, args) => console.log(`${name}: ${message}`),
+        log: (name, severity, message) => 
+          // eslint-disable-next-line no-console
+          console.log(`${name}: ${message}`),
       },
     },
   },

@@ -3,7 +3,7 @@ const axios = require("axios");
 
 // deletes the created test app during tear down
 export const deleteApp = async (token, appId) => {
-  let options = {
+  const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps/${appId}`,
     method: "DELETE",
     headers: {
@@ -13,7 +13,7 @@ export const deleteApp = async (token, appId) => {
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
@@ -26,7 +26,7 @@ export const deleteContentType = async (
   mgmtToken: string | undefined,
   contentTypeID: string | undefined
 ) => {
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/content_types/${contentTypeID}?`,
     method: "DELETE",
     headers: {
@@ -36,20 +36,20 @@ export const deleteContentType = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
   }
 };
-//deletes release
+// deletes release
 export const deleteRelease = async (
   authToken: string | undefined,
   stackApiKey: string | undefined,
   mgmtToken: string | undefined,
   releaseID: string | undefined
 ) => {
-  let options = {
+  const options = {
     url: `https://${process.env.BASE_API_URL}/v3/releases/${releaseID}`,
     method: "DELETE",
     headers: {
@@ -60,7 +60,7 @@ export const deleteRelease = async (
     },
   };
   try {
-    let result = await axios(options);
+    const result = await axios(options);
     return result.data;
   } catch (error) {
     return error;
