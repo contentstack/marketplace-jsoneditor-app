@@ -87,7 +87,11 @@ const CustomField: React.FC = function () {
     state?.location?.CustomField?.field?.setData(saveJsonData);
   }, [saveJsonData]);
 
-  return <div className="layout-container">{state?.appSdkInitialized && <JSONEditor onChange={onChangeSave} value={jsonData[0]} />}</div>;
+  return <div className="layout-container">
+    <div>      
+      {state?.appSdkInitialized && <JSONEditor onChange={onChangeSave} value={jsonData[0]} />}
+    </div>
+  </div>;
 };
 
 export default CustomField;

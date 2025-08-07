@@ -1,33 +1,78 @@
 {
-  "name": "marketplace-json-editor-app",
-  "version": "1.0.0",
-  "description": "",
+  "name": "marketplace-json-editor-app-ui",
+  "version": "0.1.5",
+  "private": true,
+  "dependencies": {
+    "@contentstack/app-sdk": "^2.3.2",
+    "@datadog/browser-rum": "^6.17.0",
+    "@playwright/test": "1.54.2",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "ajv": "^8.17.1",
+    "axios": "^1.11.0",
+    "brace": "^0.11.1",
+    "dotenv": "^17.2.1",
+    "jotai": "^2.13.0",
+    "jsoneditor": "^9.10.5",
+    "jsonfile": "^6.1.0",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.7.1",
+    "sass": "^1.90.0",
+    "tippy.js": "^6.3.7",
+    "typescript": "^4.9.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prettify": "prettier --write .",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-pattern './node_modules/' --ignore-pattern './buid/'",
+    "precommit": "npm run prettify && npm run lint:fix",
+    "test:chrome": "npx playwright test --config=playwright.config.ts --project=Chromium",
+    "test:firefox": "npx playwright test --config=playwright.config.ts --project=firefox",
+    "test:safari": "npx playwright test --config=playwright.config.ts --project=safari",
+    "test:chrome-headed": "npx playwright test --headed --config=playwright.config.ts --project=Chromium",
+    "test:firefox-headed": "npx playwright test --headed --config=playwright.config.ts --project=firefox",
+    "test:safari-headed": "npx playwright test --headed --config=playwright.config.ts --project=safari"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/contentstack-expert-services/marketplace-app-template.git"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/contentstack-expert-services/marketplace-app-template/issues"
-  },
-  "homepage": "https://github.com/contentstack-expert-services/marketplace-app-template#readme",
   "devDependencies": {
-    "husky": "^4.3.8",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "validate-branch-name": "^1.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx validate-branch-name && cd ui && rimraf build && npm run precommit"
-    }
-  },
-  "validate-branch-name": {
-    "pattern": "^(feature|bugfix|hotfix)/ESI-[0-9]+-[a-z0-9-]{5,30}$",
-    "errorMsg": "Please add a valid branch name!"
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/jsoneditor": "^9.9.5",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "30.0.5",
+    "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^29.4.1",
+    "vite": "^6.3.5"
   }
 }
