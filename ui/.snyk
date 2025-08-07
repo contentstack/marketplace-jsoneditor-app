@@ -1,4 +1,0 @@
-ignore:
-    "SNYK-JS-ELLIPTIC-8187303":
-        - "*":
-            reason: "Fix the package related issue post publish"
