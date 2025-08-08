@@ -30,7 +30,7 @@ export class LoginPage {
   }
 
   // login handler
-  async performLogin(email, password) {
+  async performLogin(email: string, password: string) {
     try {
       if ((await this.page.$(".user-session-page")) !== null) {
         // Contentstack classic UI login

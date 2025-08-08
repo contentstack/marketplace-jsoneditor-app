@@ -20,13 +20,11 @@ import "tippy.js/dist/tippy.css";
 /* Import our CSS */
 import "./styles.scss";
 
-import useJsErrorTracker from "../../hooks/useJsErrorTracker";
 import { useAppSdk } from "../../hooks/useAppSdk";
 import useAnalytics from "../../hooks/useAnalytics";
 
 const ConfigScreen: React.FC = function () {
   // error tracking hooks
-  const { setErrorsMetaData, trackError } = useJsErrorTracker();
   const { trackEvent } = useAnalytics();
   const [appSdk] = useAppSdk();
 
@@ -68,11 +66,9 @@ const ConfigScreen: React.FC = function () {
             "App Location": appLocation,
             "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), //first uuid from collaborators
           };
-          setErrorsMetaData(properties); // set global event data for errors
         }
       })
       .catch((error) => {
-        trackError(error);
         console.error(constants.appSdkError, error);
       });
   }, []);
