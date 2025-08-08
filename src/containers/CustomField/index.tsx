@@ -1,6 +1,5 @@
 /* eslint-disable spaced-comment */
 import React, { useEffect, useState } from "react";
-import { get } from "lodash";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import constants, { eventNames } from "../../common/constants";
 import { isEmpty } from "../../common/utils";
@@ -8,7 +7,6 @@ import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
 import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
-import getAppLocation from "../../common/utils/function";
 
 const CustomField: React.FC = function () {
   // error tracking hooks
@@ -61,13 +59,6 @@ const CustomField: React.FC = function () {
         }
         setSaveJsonData(toStringify(isStringified, config?.isStringified) ? [JSON.stringify(jsonVal[0])] : jsonVal);
         trackEvent(APP_INITIALIZE_SUCCESS);
-        const appLocation: string = getAppLocation(appSdk);
-        const properties = {
-          Stack: appSdk?.stack._data.api_key,
-          Organization: appSdk?.currentUser.defaultOrganization,
-          "App Location": appLocation,
-          "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), // first uuid from collaborators
-        };
       })
       .catch((error) => {
         console.error(constants.appSdkError, error);

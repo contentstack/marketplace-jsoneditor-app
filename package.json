@@ -31,7 +31,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "prettify": "prettier --write .",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-pattern './node_modules/' --ignore-pattern './buid/'",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx . --ignore-path .gitignore",
     "precommit": "npm run prettify && npm run lint:fix",
     "test:chrome": "npx playwright test --config=playwright.config.ts --project=Chromium",
     "test:firefox": "npx playwright test --config=playwright.config.ts --project=firefox",
