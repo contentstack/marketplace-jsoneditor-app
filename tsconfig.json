@@ -17,5 +17,12 @@
     "types": ["node"],
     "typeRoots": [ "./node_modules/@types" ]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "tests",
+    "*.config.js",
+    "*.config.ts",
+    "*.setup.js",
+    ".eslintrc.js"
+  ]
 }
