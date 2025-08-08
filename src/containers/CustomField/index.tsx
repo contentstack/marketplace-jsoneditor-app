@@ -67,7 +67,7 @@ const CustomField: React.FC = function () {
   }, []);
 
   const onChangeSave = (saveData: any) => {
-    state.location?.CustomField?.field?.setData(toStringify(isStringified, state?.config?.isStringified) ? JSON.stringify(saveData) : saveData);
+    state.location?.CustomField?.field?.setData(toStringify(isStringified, state?.config?.isStringified) ? [JSON.stringify(saveData)] : [saveData]);
   };
 
   useEffect(() => {
