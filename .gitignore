@@ -29,3 +29,5 @@ ui/.env
 api/.env
 .env
 dist
+test-results/
+storageState.json

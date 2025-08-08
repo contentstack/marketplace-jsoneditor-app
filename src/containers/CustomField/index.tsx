@@ -9,11 +9,9 @@ import "./styles.scss";
 import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
 import getAppLocation from "../../common/utils/function";
-import useJsErrorTracker from "../../hooks/useJsErrorTracker";
 
 const CustomField: React.FC = function () {
   // error tracking hooks
-  const { setErrorsMetaData, trackError } = useJsErrorTracker();
   const [state, setState] = useState<TypeSDKData>({
     config: {},
     location: {},
@@ -70,10 +68,8 @@ const CustomField: React.FC = function () {
           "App Location": appLocation,
           "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), // first uuid from collaborators
         };
-        setErrorsMetaData(properties); // set global event data for errors
       })
       .catch((error) => {
-        trackError(error);
         console.error(constants.appSdkError, error);
         trackEvent(APP_INITIALIZE_FAILURE);
       });

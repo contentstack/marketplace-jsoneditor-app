@@ -9,7 +9,11 @@ import App from "./containers/App";
 import "./index.css";
 
 const container = document.getElementById("root");
+<<<<<<< HEAD
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
+=======
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+>>>>>>> ad4a7b4 (fix: lint issues and console log issues)
 root.render(
   <React.StrictMode>
     <App />
