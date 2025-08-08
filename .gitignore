@@ -28,3 +28,4 @@ ui/.dccache
 ui/.env
 api/.env
 .env
+dist

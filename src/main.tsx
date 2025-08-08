@@ -8,9 +8,7 @@ import App from "./containers/App";
 /* Import our CSS */
 import "./index.css";
 
-console.log("Before getElementById");
 const container = document.getElementById("root");
-console.log("Container:", container);
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <React.StrictMode>

@@ -27,9 +27,6 @@ class ErrorBoundary extends React.Component<MyProps, MyState> {
   componentDidCatch(error: Error) {
     // You can also log the error to an error reporting service
     console.error(error);
-    if (ENV === "development") {
-      console.error(error);
-    }
   }
 
   render() {
