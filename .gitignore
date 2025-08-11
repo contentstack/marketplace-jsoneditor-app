@@ -28,3 +28,9 @@ ui/.dccache
 ui/.env
 api/.env
 .env
+dist
+build
+test-results/
+storageState.json
+playwright-report/
+data.json

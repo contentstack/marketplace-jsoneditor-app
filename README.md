@@ -207,13 +207,6 @@ npm run lint:fix
 npm run precommit
 ```
 
-#### Code Formatting
-
-```bash
-# Format code with Prettier
-npm run prettify
-```
-
 ### Build Process
 
 The app uses `react-app-rewired` for custom build configuration:
@@ -271,10 +264,8 @@ We welcome contributions! Please follow these guidelines:
 |--------|-------------|
 | `npm start` | Start development server |
 | `npm run build` | Build for production |
-| `npm test` | Run unit tests |
 | `npm run test:chrome` | Run E2E tests in Chrome |
 | `npm run lint:fix` | Fix linting issues |
-| `npm run prettify` | Format code with Prettier |
 
 ## 🐛 Troubleshooting
 

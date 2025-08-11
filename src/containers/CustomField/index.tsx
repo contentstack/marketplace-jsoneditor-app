@@ -1,6 +1,5 @@
 /* eslint-disable spaced-comment */
 import React, { useEffect, useState } from "react";
-import { get } from "lodash";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 import constants, { eventNames } from "../../common/constants";
 import { isEmpty } from "../../common/utils";
@@ -8,12 +7,9 @@ import { TypeSDKData } from "../../common/types";
 import "./styles.scss";
 import useAnalytics from "../../hooks/useAnalytics";
 import JSONEditor from "../../components/jsoneditor";
-import getAppLocation from "../../common/utils/function";
-import useJsErrorTracker from "../../hooks/useJsErrorTracker";
 
 const CustomField: React.FC = function () {
   // error tracking hooks
-  const { setErrorsMetaData, trackError } = useJsErrorTracker();
   const [state, setState] = useState<TypeSDKData>({
     config: {},
     location: {},
@@ -63,17 +59,8 @@ const CustomField: React.FC = function () {
         }
         setSaveJsonData(toStringify(isStringified, config?.isStringified) ? [JSON.stringify(jsonVal[0])] : jsonVal);
         trackEvent(APP_INITIALIZE_SUCCESS);
-        const appLocation: string = getAppLocation(appSdk);
-        const properties = {
-          Stack: appSdk?.stack._data.api_key,
-          Organization: appSdk?.currentUser.defaultOrganization,
-          "App Location": appLocation,
-          "User Id": get(appSdk, "stack._data.collaborators.0.uid", ""), // first uuid from collaborators
-        };
-        setErrorsMetaData(properties); // set global event data for errors
       })
       .catch((error) => {
-        trackError(error);
         console.error(constants.appSdkError, error);
         trackEvent(APP_INITIALIZE_FAILURE);
       });
@@ -87,7 +74,11 @@ const CustomField: React.FC = function () {
     state?.location?.CustomField?.field?.setData(saveJsonData);
   }, [saveJsonData]);
 
-  return <div className="layout-container">{state?.appSdkInitialized && <JSONEditor onChange={onChangeSave} value={jsonData[0]} />}</div>;
+  return <div className="layout-container">
+    <div>      
+      {state?.appSdkInitialized && <JSONEditor onChange={onChangeSave} value={jsonData[0]} />}
+    </div>
+  </div>;
 };
 
 export default CustomField;

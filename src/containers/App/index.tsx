@@ -9,8 +9,7 @@ import "./styles.scss";
 
 /* App - The main app component that should be rendered */
 const App: React.FC = function () {
-  const Router =
- window.location?.href.includes("#") ? HashRouter : BrowserRouter;
+  const Router = window.location?.href.includes("#") ? HashRouter : BrowserRouter;
   return (
     <div className="app">
       <ErrorBoundary>

@@ -14,10 +14,10 @@ const config: PlaywrightTestConfig = {
    * globalSetup & teardown of test data
    * globalTeardown: require.resolve("./tests/global-teardown"),
    */
-  globalSetup: require.resolve("../ui/tests/global-setup"),
+  globalSetup: require.resolve("./tests/global-setup"),
 
 
-  testDir: "../ui/tests/e2e",
+  testDir: "./tests/e2e",
   /* Maximum time one test can run for. */
   timeout: 10 * 10000,
   expect: {
