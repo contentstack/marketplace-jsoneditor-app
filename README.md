@@ -39,7 +39,7 @@ A powerful and user-friendly JSON editor application designed for Contentstack's
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-org/marketplace-jsoneditor-app.git
+   git clone https://github.com/contentstack/marketplace-jsoneditor-app.git
    cd marketplace-jsoneditor-app
    ```
 
@@ -307,9 +307,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/your-org/marketplace-jsoneditor-app/issues)
-- **Documentation**: [Wiki](https://github.com/your-org/marketplace-jsoneditor-app/wiki)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/marketplace-jsoneditor-app/discussions)
+- **Issues**: [GitHub Issues](https://github.com/contentstack/marketplace-jsoneditor-app/issues)
+- **Documentation**: [Wiki](https://github.com/contentstack/marketplace-jsoneditor-app/blob/main/README.md)
+
 
 ---
 
