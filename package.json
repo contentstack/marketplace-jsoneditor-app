@@ -16,7 +16,7 @@
     "jotai": "^2.13.0",
     "jsoneditor": "^9.10.5",
     "jsonfile": "^6.1.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "prop-types": "^15.8.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
