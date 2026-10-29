@@ -17,8 +17,8 @@ const VenusHelp: React.FC = function () {
         fill="#647696"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M7 14A7 7 0 107 0a7 7 0 000 14zm0-1.25a5.75 5.75 0 100-11.5 5.75 5.75 0 000 11.5z"
         fill="#647696"
       />

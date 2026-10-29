@@ -34,3 +34,5 @@ test-results/
 storageState.json
 playwright-report/
 data.json
+coverage/
+*.tsbuildinfo
