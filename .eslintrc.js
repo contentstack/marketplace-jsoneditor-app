@@ -33,4 +33,15 @@ module.exports = {
     "func-names": [0],
     "no-console": ["error", { allow: ["warn", "error", "info"] }],
   },
+  overrides: [
+    {
+      files: ["src/**/*.spec.{ts,tsx}", "src/test-utils/**", "src/setupTests.ts"],
+      rules: {
+        "import/no-extraneous-dependencies": 0,
+        "import/prefer-default-export": 0,
+        "react/function-component-definition": 0,
+        "@typescript-eslint/lines-between-class-members": 0,
+      },
+    },
+  ],
 };
