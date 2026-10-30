@@ -6,14 +6,14 @@ interface ExtensionUid {
   uid: string;
 }
 const file = "data.json";
-const savedObj = {};
+const savedObj: Record<string, string> = {};
 const writeFile = async (obj: any) => {
   jsonfile
     .writeFile(file, obj)
-    .then((res) => {
+    .then((res: unknown) => {
       return res;
     })
-    .catch((error) => console.error(error));
+    .catch((error: unknown) => console.error(error));
 };
 // get authtoken
 export const getAuthToken = async (): Promise<string> => {
@@ -36,7 +36,7 @@ export const getAuthToken = async (): Promise<string> => {
     await writeFile(savedObj);
     return result.data.user.authtoken;
   } catch (error) {
-    return error;
+    return error as string;
   }
 };
 // create app in developer hub
