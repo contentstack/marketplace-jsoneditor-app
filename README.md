@@ -1,316 +1,73 @@
 # Marketplace JSON Editor App
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.5.2-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
+A Contentstack Marketplace custom field (JSON data type) that edits JSON with [`jsoneditor`](https://github.com/josdejong/jsoneditor). It saves the value either as an object or as a stringified JSON, depending on the app setting.
 
-A powerful and user-friendly JSON editor application designed for Contentstack's marketplace. This app provides an enhanced JSON editing experience with support for both object and stringified JSON formats, making it ideal for adding JSON data.
+## Features
 
-## 🚀 Features
+- Five editor modes: code (default), form, text, tree, view
+- App configuration screen with the data format setting (`isStringified`)
+- Per-content-type `stringify` field setting (see Saved data)
+- React 19, Vite, TypeScript, Vitest unit tests, Playwright e2e tests
 
-- **Advanced JSON Editor**: Built with `jsoneditor-react` for a rich editing experience
-- **Multiple View Modes**: Support for code, form, text, tree, and view modes
-- **Flexible Data Format**: Choose between JSON object and stringified JSON formats
-- **Contentstack Integration**: Seamless integration with Contentstack App SDK
-- **Error Tracking**: Built-in error tracking and analytics
-- **Responsive Design**: Modern UI with Venus design system
-- **TypeScript Support**: Full TypeScript implementation for better development experience
-- **Comprehensive Testing**: Unit tests with Jest and E2E tests with Playwright
+## Setup
 
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Development](#development)
-- [Testing](#testing)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [License](#license)
-
-## 🛠️ Installation
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-- Contentstack account and stack
-
-### Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/contentstack/marketplace-jsoneditor-app.git
-   cd marketplace-jsoneditor-app
-   ```
-
-2. **Install dependencies**
-   ```bash
-   cd ui
-   npm install
-   ```
-
-3. **Environment Setup**
-   Create a `.env` file in the `ui` directory:
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Add your Contentstack configuration:
-   ```env
-   ENV_URL=https://your-contentstack-instance.com
-   STACK_UID=your-stack-uid
-   APP_HOST_URL=http://localhost:3000
-   ```
-
-## 🚀 Usage
-
-### Development Mode
+Node >=22.12.
 
 ```bash
-cd ui
-npm start
+npm ci
+npm start        # http://localhost:3000
 ```
 
-The application will be available at `http://localhost:3000`
+The app only renders inside Contentstack. It is loaded in an iframe at the manifest paths:
 
-### Production Build
+| Location | Path |
+|----------|------|
+| Custom field (`cs.cm.stack.custom_field`, data type `json`) | `/#/custom-field` |
+| App config (`cs.cm.stack.config`) | `/#/config` |
 
-```bash
-cd ui
-npm run build
-```
+Routing uses `HashRouter` when the URL contains `#` (see `src/containers/App`). The manifest lives in `update-app-info.json`.
 
-### Configuration Screen
+## Saved data
 
-The app provides a configuration screen where you can set:
+The field saves an array through `field.setData`:
 
-- **Data Format**: Choose between JSON Object and JSON Stringified formats
-- **Help Tooltips**: Interactive help system for better user guidance
+- Object format: `[ { ...json } ]`
+- Stringified format: `[ "{\"...\":...}" ]`
 
-### Custom Field Usage
+The format comes from the app config `isStringified` (set on the config screen: "JSON Object" or "JSON Stringified"). A content-type field `stringify` setting is meant to override it, but currently has no effect when editing (known bug, covered by a skipped test). Stored invalid JSON currently shows as `{}` (known bug, skipped test).
 
-The JSON editor can be used as a custom field in Contentstack entries:
-
-1. Navigate to your content type
-2. Add the JSON Editor custom field
-3. Configure the data format in the app configuration
-4. Start editing JSON data with the rich editor interface
-
-## ⚙️ Configuration
-
-### App Configuration
-
-The app supports the following configuration options:
-
-| Option | Type | Description |
-|--------|------|-------------|
-| `isStringified` | boolean | Controls whether data is saved as stringified JSON or object |
-
-### Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `ENV_URL` | Contentstack environment URL | Yes |
-| `STACK_UID` | Your Contentstack stack UID | Yes |
-| `APP_HOST_URL` | App host URL for testing | Yes |
-
-## 🧪 Testing
-
-### Unit Tests
-
-Run unit tests with Jest:
-
-```bash
-cd ui
-npm test
-```
-
-### E2E Tests
-
-Run end-to-end tests with Playwright:
-
-```bash
-# Run all browsers
-npm run test:chrome
-npm run test:firefox
-npm run test:safari
-
-# Run with headed mode (visible browser)
-npm run test:chrome-headed
-npm run test:firefox-headed
-npm run test:safari-headed
-```
-
-### Test Coverage
-
-Generate coverage report:
-
-```bash
-npm test -- --coverage
-```
-
-## 🏗️ Development
-
-### Project Structure
-
-```
-ui/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── jsoneditor/     # JSON editor component
-│   │   ├── ErrorBoundary/  # Error boundary component
-│   │   └── venus-help/     # Help icon component
-│   ├── containers/         # Main app containers
-│   │   ├── App/           # Main app component
-│   │   ├── ConfigScreen/  # Configuration screen
-│   │   └── CustomField/   # Custom field implementation
-│   ├── common/            # Shared utilities and types
-│   │   ├── constants/     # App constants
-│   │   ├── locale/        # Internationalization
-│   │   ├── types/         # TypeScript type definitions
-│   │   └── utils/         # Utility functions
-│   ├── hooks/             # Custom React hooks
-│   └── index.tsx          # App entry point
-├── tests/                 # Test files
-│   ├── e2e/              # End-to-end tests
-│   └── pages/            # Page object models
-├── public/               # Static assets
-└── package.json          # Dependencies and scripts
-```
-
-### Key Components
-
-#### JSONEditor Component
-- **Location**: `src/components/jsoneditor/index.tsx`
-- **Purpose**: Main JSON editing interface
-- **Features**: Multiple view modes, syntax highlighting, validation
-
-#### ConfigScreen Component
-- **Location**: `src/containers/ConfigScreen/index.tsx`
-- **Purpose**: App configuration interface
-- **Features**: Data format selection, help tooltips
-
-#### CustomField Component
-- **Location**: `src/containers/CustomField/index.tsx`
-- **Purpose**: Contentstack custom field implementation
-- **Features**: SDK integration, data persistence
-
-### Code Quality
-
-#### Linting
-
-```bash
-# Fix linting issues
-npm run lint:fix
-
-# Pre-commit hook
-npm run precommit
-```
-
-### Build Process
-
-The app uses `react-app-rewired` for custom build configuration:
-
-- **Babel Configuration**: Custom Babel setup for modern JavaScript features
-- **Webpack Overrides**: Custom webpack configuration for JSON editor
-- **TypeScript Support**: Full TypeScript compilation
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Development Workflow
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Make your changes**
-4. **Run tests**
-   ```bash
-   npm test
-   npm run test:chrome
-   ```
-5. **Commit your changes**
-   ```bash
-   git commit -m "feat: add your feature description"
-   ```
-6. **Push to your fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-7. **Create a Pull Request**
-
-### Code Style Guidelines
-
-- Follow TypeScript best practices
-- Use functional components with hooks
-- Write comprehensive tests
-- Follow the existing code structure
-- Use meaningful commit messages
-
-### Testing Requirements
-
-- Unit tests for all new components
-- E2E tests for user workflows
-- Maintain test coverage above 80%
-
-
-
-## 🔧 Scripts
+## Scripts
 
 | Script | Description |
 |--------|-------------|
-| `npm start` | Start development server |
-| `npm run build` | Build for production |
-| `npm run test:chrome` | Run E2E tests in Chrome |
-| `npm run lint:fix` | Fix linting issues |
+| `npm start` | Dev server |
+| `npm run build` | Typecheck, then production build to `build/` |
+| `npm run lint` | ESLint on `src` |
+| `npm run typecheck` | `tsc --noEmit` on the app tsconfig |
+| `npm test` | Vitest, run once |
+| `npm run test:watch` | Vitest watch mode |
+| `npm run test:coverage` | Vitest with coverage; fails under 90% lines, branches, functions, statements |
+| `npm run test:chrome` | Playwright e2e (also `test:firefox`, `test:safari`, `*-headed`) |
 
-## 🐛 Troubleshooting
+## Testing
 
-### Common Issues
+Unit tests are Vitest specs next to the code (`src/**/*.spec.tsx`), with `jsdom` and the Contentstack SDK mocked. CI runs lint, typecheck, build and coverage (`.github/workflows/ci.yml`).
 
-1. **App SDK Initialization Error**
-   - Ensure Contentstack credentials are correct
-   - Check network connectivity
-   - Verify app location configuration
+E2E tests (`tests/`) need a `.env` copied from `.env.example` and a Contentstack account; they are not part of CI.
 
-2. **JSON Editor Not Loading**
-   - Clear browser cache
-   - Check for JavaScript errors in console
-   - Verify JSON editor dependencies
+## Project structure
 
-3. **Test Failures**
-   - Ensure all dependencies are installed
-   - Check environment variables
-   - Verify test data setup
-
-### Debug Mode
-
-Enable debug logging:
-
-```bash
-DEBUG=* npm start
+```
+src/
+├── components/   ErrorBoundary, jsoneditor, venus-help (help icon)
+├── containers/   App (routes), ConfigScreen, CustomField
+├── common/       constants, locale, types, utils
+├── hooks/        useAppSdk, useAnalytics
+├── test-utils/   fake SDK and fake jsoneditor for specs
+└── main.tsx      entry
+tests/            Playwright e2e
 ```
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Contentstack](https://www.contentstack.com/) for the App SDK
-- [JSONEditor](https://github.com/josdejong/jsoneditor) for the JSON editing capabilities
-- [React](https://reactjs.org/) for the UI framework
-- [Playwright](https://playwright.dev/) for E2E testing
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/contentstack/marketplace-jsoneditor-app/issues)
-- **Documentation**: [Wiki](https://github.com/contentstack/marketplace-jsoneditor-app/blob/main/README.md)
-
-
----
-
-**Made with ❤️ for the Contentstack community**
+MIT, see [LICENSE](LICENSE).
