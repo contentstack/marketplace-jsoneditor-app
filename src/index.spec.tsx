@@ -4,7 +4,7 @@ import { makeSdk } from "./test-utils/sdk";
 
 vi.mock("@contentstack/app-sdk", () => ({ default: { init: vi.fn() } }));
 
-// Contentstack loads the app in an iframe at <host>/#/custom-field and <host>/#/config (MKT-19734).
+// Contentstack loads the app in an iframe at <host>/#/custom-field and <host>/#/config (see the app's docs page).
 describe("entry", () => {
   beforeEach(() => {
     vi.resetModules();
