@@ -1,0 +1,25 @@
+{
+  "title": "Test JSON Editor",
+  "uid": "test_json_editor",
+  "schema": [
+    {
+      "display_name": "Title",
+      "uid": "title",
+      "data_type": "text",
+      "mandatory": true,
+      "unique": true,
+      "field_metadata": { "_default": true }
+    },
+    {
+      "display_name": "JSON Editor",
+      "uid": "json_editor",
+      "data_type": "json",
+      "extension_uid": "<uid of this app's JSON custom field on your stack>",
+      "field_metadata": { "extension": true },
+      "config": {},
+      "mandatory": false,
+      "multiple": false
+    }
+  ],
+  "options": { "title": "title", "is_page": false, "singleton": false }
+}

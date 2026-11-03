@@ -127,6 +127,15 @@ npm test
 
 ### E2E Tests
 
+#### E2E setup (once per test stack)
+
+The suite opens a new entry of the `test_json_editor` content type and checks the editor loads.
+
+1. Create a test stack and install this app on it from Developer Hub, with base URL `http://localhost:3000` and the locations in `update-app-info.json`.
+2. Create the content type from `tests/fixtures/test_json_editor.content-type.json`: set `extension_uid` to the uid of this app's JSON custom field on the stack (Settings > Extensions), then import it under Content Models.
+3. Set `EMAIL`, `PASSWORD` (a test user with access to the stack), `ENV_URL`, `BASE_API_URL` (host name only, no `https://`), `STACK_UID` and `APP_HOST_URL=http://localhost:3000` in `.env`.
+4. Start the app with `npm start`, install the browser once with `npx playwright install chromium`, then run `npm run test:chrome`.
+
 Run end-to-end tests with Playwright:
 
 ```bash
