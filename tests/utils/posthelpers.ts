@@ -2,7 +2,7 @@
 const axios = require("axios");
 
 // deletes the created test app during tear down
-export const deleteApp = async (token, appId) => {
+export const deleteApp = async (token: string, appId: string) => {
   const options = {
     url: `https://${process.env.DEVELOPER_HUB_API}/apps/${appId}`,
     method: "DELETE",

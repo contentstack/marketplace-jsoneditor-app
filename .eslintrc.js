@@ -16,6 +16,18 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   plugins: ["import", "react", "react-hooks", "@typescript-eslint"],
+  overrides: [
+    {
+      // Test files and helpers: dev dependencies are expected, and fakes mirror class APIs.
+      files: ["src/**/*.spec.{ts,tsx}", "src/test-utils/**", "src/setupTests.ts"],
+      rules: {
+        "import/no-extraneous-dependencies": 0,
+        "import/prefer-default-export": 0,
+        "react/function-component-definition": 0,
+        "@typescript-eslint/lines-between-class-members": 0,
+      },
+    },
+  ],
   rules: {
     "arrow-body-style": 0,
     "no-plusplus": 0,

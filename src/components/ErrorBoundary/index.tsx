@@ -10,7 +10,7 @@ interface MyState {
   hasError: boolean;
 }
 
-const ENV: string = process.env.NODE_ENV;
+const ENV: string = process.env.NODE_ENV || "";
 
 class ErrorBoundary extends React.Component<MyProps, MyState> {
   constructor(props: any) {
