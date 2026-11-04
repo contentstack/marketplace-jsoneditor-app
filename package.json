@@ -38,7 +38,9 @@
     "test:firefox-headed": "npx playwright test --headed --config=playwright.config.ts --project=firefox",
     "test:safari-headed": "npx playwright test --headed --config=playwright.config.ts --project=safari",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
-    "typecheck": "tsc --noEmit --incremental false"
+    "typecheck": "tsc --noEmit --incremental false",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "browserslist": {
     "production": [
