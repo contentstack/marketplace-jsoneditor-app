@@ -46,7 +46,6 @@ it("ErrorBoundary logs the error in development", async () => {
   const Boom = () => { throw new Error("dev-boom"); };
   render(<DevBoundary><Boom /></DevBoundary>);
   expect(err).toHaveBeenCalledWith(expect.objectContaining({ message: "dev-boom" }));
-  vi.unstubAllEnvs();
 });
 
 it("VenusHelp renders the help icon", () => {
@@ -80,6 +79,5 @@ describe("useAnalytics", () => {
     });
     result.current.trackEvent("e", { a: 1 });
     expect(pulse).toHaveBeenCalledWith("e", { a: 1 });
-    vi.unstubAllEnvs();
   });
 });
