@@ -83,7 +83,8 @@ const ConfigScreen: React.FC = function () {
     if (typeof fieldValue === "string") fieldValue = fieldValue?.trim();
     const updatedConfig = state?.installationData?.configuration || {};
     const updatedServerConfig = state?.installationData?.serverConfiguration;
-    updatedConfig[fieldName] = fieldValue;
+    if (fieldName === "auth_token") updatedServerConfig[fieldName] = fieldValue;
+    else updatedConfig[fieldName] = fieldValue;
     if (typeof state?.setInstallationData !== "undefined") {
       await state?.setInstallationData({
         ...state?.installationData,
