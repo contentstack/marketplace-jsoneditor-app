@@ -20,7 +20,15 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    include: ['src/**/*.spec.tsx'],
+    setupFiles: ['src/setupTests.ts'],
+    include: ['src/**/*.spec.{ts,tsx}'],
+    css: false,
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/**/*.spec.{ts,tsx}', 'src/**/*.d.ts', 'src/setupTests.ts', 'src/test-utils/**', 'src/common/types/**'],
+      thresholds: { lines: 100, branches: 85, functions: 100, statements: 98 },
+    },
   },
   define: {
     '__APP_VERSION__': JSON.stringify(packageJson.version),
