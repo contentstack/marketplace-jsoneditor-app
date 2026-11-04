@@ -14,7 +14,7 @@ A powerful and user-friendly JSON editor application designed for Contentstack's
 - **Error Tracking**: Built-in error tracking and analytics
 - **Responsive Design**: Modern UI with Venus design system
 - **TypeScript Support**: Full TypeScript implementation for better development experience
-- **Comprehensive Testing**: Unit tests with Jest and E2E tests with Playwright
+- **Comprehensive Testing**: Unit tests with Vitest and E2E tests with Playwright
 
 ## 📋 Table of Contents
 
@@ -118,7 +118,7 @@ The app supports the following configuration options:
 
 ### Unit Tests
 
-Run unit tests with Jest:
+Run unit tests with Vitest:
 
 ```bash
 cd ui
@@ -139,14 +139,6 @@ npm run test:safari
 npm run test:chrome-headed
 npm run test:firefox-headed
 npm run test:safari-headed
-```
-
-### Test Coverage
-
-Generate coverage report:
-
-```bash
-npm test -- --coverage
 ```
 
 ## 🏗️ Development

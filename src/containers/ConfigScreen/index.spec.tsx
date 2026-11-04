@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
 import ConfigPage from "./index";
 
 const inputLabel = "Data format In Entry";
@@ -17,7 +18,7 @@ const UIElementsIDs = [
 beforeEach(async () => {
   render(<ConfigPage />);
 });
-jest.spyOn(React, "useEffect").mockImplementation();
+vi.spyOn(React, "useEffect").mockImplementation(() => {});
 
 afterEach(cleanup);
 
