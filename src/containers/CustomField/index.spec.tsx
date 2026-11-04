@@ -48,15 +48,15 @@ describe("saved data shape", () => {
     await waitFor(() => expect(setData).toHaveBeenLastCalledWith(['{"a":1}']));
   });
 
-  // BUG: MKT-19751 `let isStringified` is re-declared on every render, so the per-content-type override is lost by the time onChangeSave runs.
-  it.skip("a content-type stringify=true override beats global false", async () => {
+  // KNOWN BUG MKT-19751 (it.fails: passes while the bug exists; turn into it() when fixed). `let isStringified` is re-declared on every render, so the per-content-type override is lost by the time onChangeSave runs.
+  it.fails("a content-type stringify=true override beats global false", async () => {
     const { setData } = await mount({ stored: [{ a: 1 }], globalStringify: false, fieldStringify: true });
     instances[0].edit({ b: 2 });
     expect(setData).toHaveBeenLastCalledWith(['{"b":2}']);
   });
 
-  // BUG: MKT-19751 same cause as above.
-  it.skip("a content-type stringify=false override beats global true", async () => {
+  // KNOWN BUG MKT-19751 (it.fails: passes while the bug exists; turn into it() when fixed). same cause as above.
+  it.fails("a content-type stringify=false override beats global true", async () => {
     const { setData } = await mount({ stored: [{ a: 1 }], globalStringify: true, fieldStringify: false });
     instances[0].edit({ b: 2 });
     expect(setData).toHaveBeenLastCalledWith([{ b: 2 }]);
@@ -89,8 +89,8 @@ describe("loading stored data", () => {
     expect(instances[0].set).toHaveBeenCalled();
   });
 
-  // BUG: MKT-19751 invalid stored JSON silently becomes {} and is then saved back, destroying the original text.
-  it.skip("keeps invalid stored JSON instead of overwriting it with {}", async () => {
+  // KNOWN BUG MKT-19751 (it.fails: passes while the bug exists; turn into it() when fixed). invalid stored JSON silently becomes {} and is then saved back, destroying the original text.
+  it.fails("keeps invalid stored JSON instead of overwriting it with {}", async () => {
     const { setData } = await mount({ stored: ["{not json"] });
     expect(setData).not.toHaveBeenCalledWith([{}]);
   });
@@ -102,8 +102,8 @@ describe("SDK init", () => {
     expect(sdk.location.CustomField.frame.updateHeight).toHaveBeenCalledWith(300);
   });
 
-  // BUG: MKT-19751 when the SDK fails to initialise the page stays blank; no message is shown.
-  it.skip("shows a message when the SDK fails to initialise", async () => {
+  // KNOWN BUG MKT-19751 (it.fails: passes while the bug exists; turn into it() when fixed). when the SDK fails to initialise the page stays blank; no message is shown.
+  it.fails("shows a message when the SDK fails to initialise", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.mocked(ContentstackAppSDK.init).mockRejectedValue(new Error("boom"));
     const { findByRole } = render(<CustomField />);
