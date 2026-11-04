@@ -46,7 +46,7 @@ The format comes from the app config `isStringified` (set on the config screen: 
 | `npm run typecheck` | `tsc --noEmit` on the app tsconfig |
 | `npm test` | Vitest, run once |
 | `npm run test:watch` | Vitest watch mode |
-| `npm run test:coverage` | Vitest with coverage; fails under 90% lines, branches, functions, statements |
+| `npm run test:coverage` | Vitest with coverage; fails under the thresholds set in `vite.config.ts` |
 | `npm run test:chrome` | Playwright e2e (also `test:firefox`, `test:safari`, `*-headed`) |
 
 ## Testing

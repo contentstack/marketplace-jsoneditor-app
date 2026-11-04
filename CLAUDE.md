@@ -19,7 +19,7 @@ JSON Editor: a Marketplace custom field (Tier 1, UI-only) built on `jsoneditor` 
 | Install          | `npm ci`                                                                                            |
 | Run locally      | `npm start` (http://localhost:3000; the app only renders inside Contentstack, at `/#/custom-field`) |
 | Lint / typecheck | `npm run lint` · `npm run typecheck`                                                                |
-| Unit tests       | `npm test` · `npm run test:coverage` (fails under 90%)                                              |
+| Unit tests       | `npm test` · `npm run test:coverage` (fails under the thresholds in `vite.config.ts`)                                              |
 | Build            | `npm run build` (output `build/`, git-ignored)                                                      |
 
 - Routing switches to `HashRouter` when the URL has `#`, because Contentstack loads the app in an iframe; manifest paths are `/#/custom-field` and `/#/config` (`update-app-info.json`).
